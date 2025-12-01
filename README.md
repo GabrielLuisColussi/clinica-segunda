@@ -105,6 +105,7 @@ Aplicação:
 ➡ http://localhost:8000
 
 🧩 4. Arquitetura do Projeto
+```
 clinica/
 ├── app/
 │ ├── Http/
@@ -131,6 +132,7 @@ clinica/
 ├── docker-compose.yml
 ├── Dockerfile
 └── composer.json
+```
 
 # 🔥 5. API – Endpoints (REST)
 
