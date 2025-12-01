@@ -5,7 +5,7 @@ Documentação técnica completa • Execução padronizada • Arquitetura limp
 
 <div align="center">
 🛠 STACK PRINCIPAL
-<img src="https://img.shields.io/badge/PHP-8.2-blue?logo=php&logoColor=white" /> <img src="https://img.shields.io/badge/Laravel-10-red?logo=laravel&logoColor=white" /> <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/Nginx-1.25-green?logo=nginx&logoColor=white" /> </div>
+<img src="https://img.shields.io/badge/PHP-8.2-blue?logo=php&logoColor=white" /> <img src="https://img.shields.io/badge/Laravel-10-red?logo=laravel&logoColor=white" /> <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql&logoColor=white" /> </div>
 📁 1. Visão Geral
 
 Este sistema implementa:
