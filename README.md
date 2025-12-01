@@ -1,5 +1,5 @@
 🚀 Clínica – Sistema de Agendamentos
-API Laravel + Interface Blade + Docker (App + Banco + Nginx + phpMyAdmin)
+API Laravel + Interface Blade + Docker (App + Banco + phpMyAdmin)
 
 Documentação técnica completa • Execução padronizada • Arquitetura limpa
 
