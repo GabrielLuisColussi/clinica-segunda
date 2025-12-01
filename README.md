@@ -106,31 +106,31 @@ Aplicação:
 
 🧩 4. Arquitetura do Projeto
 clinica/
-│── app/
-│   ├── Http/
-│   │   ├── Controllers/
-│   │   ├── Requests/
-│   │   ├── Middleware/
-│   └── Models/
+├── app/
+│ ├── Http/
+│ │ ├── Controllers/
+│ │ ├── Requests/
+│ │ └── Middleware/
+│ └── Models/
 │
-│── resources/
-│   └── views/
-│       ├── pacientes/
-│       ├── medicos/
-│       ├── agendamentos/
-│       └── layout.blade.php
+├── resources/
+│ └── views/
+│ ├── pacientes/
+│ ├── medicos/
+│ ├── agendamentos/
+│ └── layout.blade.php
 │
-│── routes/
-│   ├── api.php
-│   └── web.php
+├── routes/
+│ ├── api.php
+│ └── web.php
 │
-│── docker/
-│   ├── nginx/default.conf
-│   └── php/local.ini
+├── docker/
+│ ├── nginx/default.conf
+│ └── php/local.ini
 │
-│── docker-compose.yml
-│── Dockerfile
-│── composer.json
+├── docker-compose.yml
+├── Dockerfile
+└── composer.json
 
 # 🔥 5. API – Endpoints (REST)
 
