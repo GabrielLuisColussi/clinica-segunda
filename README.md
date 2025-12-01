@@ -132,38 +132,52 @@ clinica/
 │── Dockerfile
 │── composer.json
 
-🔥 5. API – Endpoints
-Pacientes
-Método	Rota	Ação
-GET	/api/pacientes	Listar
-POST	/api/pacientes	Criar
-PUT	/api/pacientes/{id}	Atualizar
-DELETE	/api/pacientes/{id}	Remover
-Médicos
-Método	Rota	Ação
-GET	/api/medicos	Listar
-POST	/api/medicos	Criar
-PUT	/api/medicos/{id}	Atualizar
-DELETE	/api/medicos/{id}	Remover
-Agendamentos (com validações)
-Método	Rota
-GET	/api/agendamentos
-POST	/api/agendamentos
-PUT	/api/agendamentos/{id}
-DELETE	/api/agendamentos/{id}
-🚫 Regras aplicadas:
+# 🔥 5. API – Endpoints (REST)
 
-after_or_equal:today
+---
 
-Proibição de sábado e domingo
+## 🧍‍♂️ Pacientes  
+> CRUD completo de pacientes
 
-not_in:12:00
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| **GET** | `/api/pacientes` | Retorna todos os pacientes |
+| **POST** | `/api/pacientes` | Cria um novo paciente |
+| **PUT** | `/api/pacientes/{id}` | Atualiza paciente |
+| **DELETE** | `/api/pacientes/{id}` | Remove paciente |
 
-Horário entre 08:00 e 18:00
+---
 
-exists:pacientes,id
+## 🩺 Médicos  
+> CRUD completo de médicos
 
-exists:medicos,id
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| **GET** | `/api/medicos` | Lista médicos |
+| **POST** | `/api/medicos` | Cria novo médico |
+| **PUT** | `/api/medicos/{id}` | Atualiza médico |
+| **DELETE** | `/api/medicos/{id}` | Remove médico |
+
+---
+
+## 📅 Agendamentos – *Validações incluídas*  
+> Regras aplicadas automaticamente ao criar/editar agendamentos
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| **GET** | `/api/agendamentos` | Lista agendamentos |
+| **POST** | `/api/agendamentos` | Cria agendamento |
+| **PUT** | `/api/agendamentos/{id}` | Atualiza agendamento |
+| **DELETE** | `/api/agendamentos/{id}` | Remove agendamento |
+
+### ✔ Regras de Validação:
+- `after_or_equal:today`  
+- Proibição de sábado e domingo  
+- Horário permitido: **08:00 → 18:00**  
+- Proibido: **12:00**  
+- Relacionamentos obrigatórios:
+  - `exists:pacientes,id`
+  - `exists:medicos,id`
 
 ⚙ 6. Docker – Arquivos Importantes
 ✔ Dockerfile
