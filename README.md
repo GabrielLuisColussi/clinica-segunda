@@ -5,17 +5,7 @@ Documentação técnica completa • Execução padronizada • Arquitetura limp
 
 <div align="center">
 🛠 STACK PRINCIPAL
-
-
-
-
-
-
-
-
-
-
-</div>
+<img src="https://img.shields.io/badge/PHP-8.2-blue?logo=php&logoColor=white" /> <img src="https://img.shields.io/badge/Laravel-10-red?logo=laravel&logoColor=white" /> <img src="https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white" /> <img src="https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/Nginx-1.25-green?logo=nginx&logoColor=white" /> </div>
 📁 1. Visão Geral
 
 Este sistema implementa:
@@ -26,13 +16,13 @@ Interface web (Blade + JS) consumindo a API.
 
 Execução padronizada com Docker, contendo:
 
-Container App (PHP 8.2 + Composer)
+App (PHP 8.2 + Composer)
 
-Container Nginx
+Nginx
 
-Container MySQL
+MySQL
 
-Container phpMyAdmin
+phpMyAdmin
 
 Regras de agendamento incluem:
 
@@ -44,39 +34,36 @@ Respeitar janela 08h → 18h
 
 Bloquear agendamentos ao meio-dia
 
-Validar relacionamentos (paciente, médico, horário)
+Validação de paciente e médico existentes
 
 🐳 2. Execução com Docker (Modo Recomendado)
 📌 Subir a stack completa
 docker-compose up -d
 
-
-Containers que serão iniciados:
-
+Containers criados:
 Serviço	Porta	Descrição
-Nginx (app)	80	Servidor web
+Nginx	80	Servidor da aplicação
 phpMyAdmin	8080	Interface do banco
-MySQL	3306	Banco de dados
+MySQL	3306	Banco
 PHP-FPM	Interno	Execução do Laravel
-📌 Rodar migrations dentro do container
+📌 Rodar migrations
 docker-compose exec app php artisan migrate
 
-📌 Gerar chave da aplicação
+📌 Gerar chave
 docker-compose exec app php artisan key:generate
 
 🔗 Acessos
 
-Aplicação (Laravel + Blade):
+Aplicação:
 http://localhost
 
 API:
-http://localhost/api/qualquer-rota
+http://localhost/api
 
 phpMyAdmin:
 http://localhost:8080
 
-usuário: root
-
+user: root
 senha: (definida no docker-compose)
 
 🧪 3. Execução Local (Sem Docker)
@@ -88,23 +75,18 @@ Composer
 
 MySQL
 
-Extensões do Laravel
-
 📌 Passo a passo
-1. Clonar o repositório
+1. Clonar
 git clone https://github.com/GabrielLuisColussi/clinica-segunda.git
 cd clinica-segunda
 
 2. Instalar dependências
 composer install
 
-3. Criar o .env
+3. Copiar env
 cp .env.example .env
 
-4. Configurar banco no .env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
+4. Configurar banco
 DB_DATABASE=clinica
 DB_USERNAME=root
 DB_PASSWORD=senha
@@ -112,14 +94,14 @@ DB_PASSWORD=senha
 5. Gerar key
 php artisan key:generate
 
-6. Rodar migrations
+6. Migrar
 php artisan migrate
 
-7. Iniciar servidor
+7. Iniciar
 php artisan serve
 
 
-Aplicação disponível em:
+Aplicação:
 ➡ http://localhost:8000
 
 🧩 4. Arquitetura do Projeto
@@ -127,147 +109,99 @@ clinica/
 │── app/
 │   ├── Http/
 │   │   ├── Controllers/
-│   │   ├── Requests/        → validações (Store, Update)
+│   │   ├── Requests/
 │   │   ├── Middleware/
 │   └── Models/
 │
 │── resources/
-│   ├── views/
+│   └── views/
 │       ├── pacientes/
 │       ├── medicos/
 │       ├── agendamentos/
 │       └── layout.blade.php
 │
 │── routes/
-│   ├── api.php      → Rotas REST
-│   └── web.php      → Interface front
+│   ├── api.php
+│   └── web.php
 │
 │── docker/
-│   ├── nginx/
-│   │   └── default.conf
+│   ├── nginx/default.conf
 │   └── php/local.ini
 │
 │── docker-compose.yml
 │── Dockerfile
 │── composer.json
 
-🔥 5. API – Endpoints Principais
-
-Rotas seguem padrão apiResource:
-
+🔥 5. API – Endpoints
 Pacientes
-Método	Rota	Descrição
+Método	Rota	Ação
 GET	/api/pacientes	Listar
 POST	/api/pacientes	Criar
 PUT	/api/pacientes/{id}	Atualizar
 DELETE	/api/pacientes/{id}	Remover
 Médicos
-Método	Rota	Descrição
+Método	Rota	Ação
 GET	/api/medicos	Listar
 POST	/api/medicos	Criar
 PUT	/api/medicos/{id}	Atualizar
 DELETE	/api/medicos/{id}	Remover
-Agendamentos
-
-Com validações avançadas:
-
-Sem datas retroativas
-
-Sem finais de semana
-
-Sem meio-dia
-
-Horário entre 08h → 18h
-
-Médico/paciente precisam existir
-
+Agendamentos (com validações)
 Método	Rota
 GET	/api/agendamentos
 POST	/api/agendamentos
 PUT	/api/agendamentos/{id}
 DELETE	/api/agendamentos/{id}
-🧪 6. Validações (Baseado no ZIP)
-
-As regras aplicadas nos Requests incluem:
-
-StoreAgendamentoRequest.php
+🚫 Regras aplicadas:
 
 after_or_equal:today
 
-not_in:2024-12-25 (exemplo de feriado)
+Proibição de sábado e domingo
 
-Restrições por horário:
+not_in:12:00
 
-< 08:00 → inválido
-
-== 12:00 → inválido
-
-> 18:00 → inválido
+Horário entre 08:00 e 18:00
 
 exists:pacientes,id
 
 exists:medicos,id
 
-🎨 7. Interface (Blade + JS)
-
-Inclui:
-
-Listagem completa
-
-Formulários reutilizáveis
-
-Layout estruturado
-
-Views:
-
-pacientes/
-
-medicos/
-
-agendamentos/
-
-login.blade.php (se existir no projeto)
-
-⚙ 8. Docker – Arquivos da Stack
-Dockerfile (PHP + Composer)
+⚙ 6. Docker – Arquivos Importantes
+✔ Dockerfile
 
 PHP-FPM
 
-Extensões Laravel
+Composer
 
-Composer 2.x
+Extensões essenciais
 
-docker-compose.yml
+✔ docker-compose.yml
 
 App
-
-Nginx
 
 MySQL
 
 phpMyAdmin
 
-Volumes persistentes
-
 Nginx
 
-docker/nginx/default.conf com:
+Volumes persistentes
+
+✔ Nginx
+
+docker/nginx/default.conf:
 
 location / {
     try_files $uri /index.php?$query_string;
 }
 
-
-Perfeito para Laravel.
-
-📚 9. Sprints Entregues (Conforme Documento do Professor)
+📚 7. Sprints Entregues
 Semana 1
 
 Tema, entidades, versionamento, README inicial.
 
 Semana 2
 
-Migrations, Controllers, Models, rotas API.
+Models, Migrations, Controllers, Rotas API.
 
 Semana 3
 
@@ -275,40 +209,38 @@ Interface consumindo API.
 
 Semana 4
 
-P&D aplicado.
+Pesquisa e Desenvolvimento.
 
 Semana 5
 
-Refino e validações.
+Validações + refino.
 
 Semana 6
 
 Docker final + apresentação.
 
-🧠 10. P&D – Resumo Técnico
+🧠 8. P&D – Resultado
 
-Dockerização do Laravel
+Dockerização total da aplicação
 
-Nginx reverse proxy
+Configuração avançada do Nginx
 
-Containers independentes
+CRUDs completos
 
-Validações complexas com FormRequest
+API padronizada
 
-Boas práticas REST
+Persistência com volumes
 
-Persistência via volumes
+Front Blade consumindo API via fetch
 
-CI local com Docker Compose
-
-👥 11. Autores
+👥 Autores
 
 Gabriel Colussi
 
 Samuel
 
-demais membros do grupo
+Demais integrantes
 
-✔ 12. Licença
+📝 Licença
 
 Uso acadêmico.
